@@ -5,8 +5,12 @@ import App from './App'
 import router from './router'
 import store from './store'
 
+import db from '../db/mysql'
+
+
 if (!process.env.IS_WEB) Vue.use(require('vue-electron'))
 Vue.http = Vue.prototype.$http = axios
+Vue.prototype.$db = db
 Vue.config.productionTip = false
 import Element from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'

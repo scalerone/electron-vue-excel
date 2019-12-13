@@ -13,10 +13,12 @@
         <div class="doc">
           <div class="title">Getting Started</div>
           <p>
-            electron-vue comes packed with detailed documentation that covers everything from
-            internal configurations, using the project structure, building your application,
-            and so much more.
+            electron-vue comes
+
           </p>
+          <ul>
+            <li v-for="(item,index) in list" :key="index">{{item.id}}:{{item.news}}</li>
+          </ul>
           <button @click="open('https://simulatedgreg.gitbooks.io/electron-vue/content/')">Read the Docs</button><br><br>
         </div>
         <div class="doc">
@@ -31,14 +33,47 @@
 
 <script>
   import SystemInformation from './LandingPage/SystemInformation'
-
+  // let mysql      = require('mysql');
+  // let connection = mysql.createConnection({
+  //   host     : 'localhost',
+  //   user     : 'root',
+  //   password : 'root',
+  //   database : 'test'
+  // });
+  //
+  // connection.connect();
+  //
+  // connection.query('SELECT * FROM t_news', function (error, results) {
+  //   if(error){
+  //     console.log('[SELECT ERROR] - ',error.message);
+  //     return;
+  //   }
+  //   console.log('--------------------------SELECT----------------------------');
+  //   console.log(results);
+  //   console.log('------------------------------------------------------------\n\n');
+  // });
+  // connection.end();
   export default {
     name: 'landing-page',
     components: { SystemInformation },
+    data(){
+      return{
+          list:[]
+      }
+    },
+    created() {
+         this.loadData();
+    },
     methods: {
       open (link) {
         this.$electron.shell.openExternal(link)
+      },
+      async loadData(){
+        let dataList = await this.$db.exec('SELECT * FROM t_news');
+        console.log(dataList);
+        this.list = dataList
       }
+
     }
   }
 </script>

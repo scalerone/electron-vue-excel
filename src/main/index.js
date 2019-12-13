@@ -42,7 +42,7 @@ const createWindow = () => {
     return
   }
   window = new BrowserWindow({
-    height: 563,
+    height: 663,
     width: 1000,
     //title: 'excel助手',
     frame: true,// 是否创建frameless窗口：创建一个没有顶部工具栏、没有border的窗口
