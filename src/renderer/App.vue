@@ -29,20 +29,95 @@
       <el-container :style="{'height':winHeight+'px'}" class="main-content">
         <router-view></router-view>
       </el-container>
+
+      <el-dialog
+              title="正在更新,请稍候..."
+              :visible.sync="dialogVisible"
+              width="60%"
+              :close-on-click-modal="closeOnClickModal"
+              :close-on-press-escape="closeOnPressEscape"
+              :show-close="showClose"
+              center
+      >
+        <div style="width:100%;height:20vh;line-height:20vh;text-align:center">
+          <el-progress
+                  status="success"
+                  :text-inside="true"
+                  :stroke-width="20"
+                  :percentage="percentage"
+                  :width="strokeWidth"
+                  :show-text="true"
+          ></el-progress>
+        </div>
+      </el-dialog>
+
     </el-container>
   </div>
 </template>
 
 <script>
+
+  // //间隔1小时检测一次
+  // let interval = window.setInterval(() => {
+  //   ipcRenderer.send("checkForUpdate");
+  // }, 3600000);
+
   export default {
     name: 'electron-excel',
     data(){
       return{
-        winHeight:document.documentElement.clientHeight
+        winHeight:document.documentElement.clientHeight,
+        dialogVisible: false,
+        closeOnClickModal: false,
+        closeOnPressEscape: false,
+        showClose: false,
+        percentage: 0,
+        strokeWidth:200
       }
     },
+    created () {
+      //接收主进程版本更新消息
+      this.$electron.ipcRenderer.on('message', (event, arg) => {
+       // this.dialogVisible = true;
+        console.log(arg);
+        if ("update-available" == arg.cmd) {
+          //显示升级对话框
+          this.dialogVisible = true;
+        } else if ("download-progress" == arg.cmd) {
+          //更新升级进度
+          /**
+           *
+           * message{bytesPerSecond: 47673
+                    delta: 48960
+                    percent: 0.11438799862426002
+                    total: 42801693
+                    transferred: 48960
+              }
+           */
+          console.log(arg.message.percent);
+          let percent = Math.round(parseFloat(arg.message.percent));
+          this.percentage = percent;
+        }  else if("update-downloaded"== arg.cmd){
+          this.dialogVisible = false;
+          this.$confirm('更新完成，马上升级', '提示', {
+            showClose:false,
+            showCancelButton:false,
+            confirmButtonText: '确定',
+            type: 'success'
+          }).then(() => {
+            this.$electron.ipcRenderer.send("updateNow");
+          });
+        }
 
+      })
+      window.setTimeout(() => {
+        this.$electron.ipcRenderer.send("checkForUpdate");
+      }, 3000);
+
+
+    },
     mounted() {
+
       //监听网络变化
       window.addEventListener('online', function(){
         console.log('有网络了')
@@ -59,9 +134,7 @@
         }
 
       });
-
       //监听右键菜单
-
       window.addEventListener('contextmenu',(e)=>{
         e.preventDefault();
         //给主进程广播事件   注意this指向
@@ -72,6 +145,11 @@
         this.winHeight=document.documentElement.clientHeight;
       }
     }
+    // destroyed() {
+    //   window.clearInterval(interval);
+    //   window.clearInterval(timeOut);
+    // }
+
   }
 </script>
 

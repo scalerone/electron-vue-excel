@@ -1,5 +1,6 @@
 import { app, BrowserWindow , Tray,Menu, screen,dialog  } from 'electron'
-
+import pkg from '../../package.json'
+import {updateHandle} from './utils/Update.js';
 /**
  * Set `__static` path to static files in production
  * https://simulatedgreg.gitbooks.io/electron-vue/content/en/using-static-assets.html
@@ -17,26 +18,6 @@ const winURL = process.env.NODE_ENV === 'development'
   ? `http://localhost:8083`
   : `file://${__dirname}/index.html`
 
-// function createWindow () {
-//   /**
-//    * Initial window options
-//    */
-//   const size = screen.getPrimaryDisplay().size
-//   console.log(size.width,size.height)
-//   mainWindow = new BrowserWindow({
-//     height: 563,
-//     useContentSize: true,
-//     width: 1000
-//   })
-//
-//   mainWindow.loadURL(winURL)
-//
-//   mainWindow.on('closed', () => {
-//     mainWindow = null
-//   })
-// }
-
-
 const createWindow = () => {
   if (process.platform !== 'darwin' && process.platform !== 'win32') {
     return
@@ -44,26 +25,17 @@ const createWindow = () => {
   window = new BrowserWindow({
     height: 563,
     useContentSize: true,
-    width: 1000
+    width: 1000,
+    webPreferences: {
+        nodeIntegration: true, //设置这个可以使用 nodejs 的API
+        nodeIntegrationInWorker: true,
+        backgroundThrottling: false
+    }
   })
-  // window = new BrowserWindow({
-  //   height: 663,
-  //   width: 1000,
-  //   useContentSize: true,
-  //   //title: 'excel助手',
-  //   frame: true,// 是否创建frameless窗口：创建一个没有顶部工具栏、没有border的窗口
-  //   fullscreenable: true,
-  //   center: true, // 是否出现在屏幕居中的位置
-  //   resizable: true,
-  //   transparent: true,
-  //   vibrancy: 'ultra-dark',
-  //   webPreferences: {
-  //     nodeIntegration: true, //设置这个可以使用 nodejs 的API
-  //     nodeIntegrationInWorker: true,
-  //     backgroundThrottling: false
-  //   }
-  // })
+
   window.loadURL(winURL)
+
+
   window.on('ready-to-show', function() {
     window.show();
     window.focus();
@@ -72,12 +44,14 @@ const createWindow = () => {
     window = null
   })
   // 去掉顶部菜单
-  window.setMenu(null)
-
-  // window.on('blur', () => {
-  //   window.hide()
-  // })
+  // window.setMenu(null)
+  // 鼠标右键菜单设置
   require('./model/menu.js');
+  //设置版本更新地址，即将打包后的latest.yml文件和exe文件同时放在
+  //http://xxxx/test/version/对应的服务器目录下,该地址和package.json的publish中的url保持一致
+  let feedUrl = "http://localhost:8085/";
+  //检测版本更新
+  updateHandle(window,feedUrl)
   return window
 }
 function createContextMenu () {
@@ -89,7 +63,7 @@ function createContextMenu () {
         dialog.showMessageBox({
           title: 'excel助手',
           message: '欢迎使用excel助手',
-          detail: `Version:v0.0.1`
+          detail: `Version:${pkg.version}`
         })
       }
     },
@@ -147,6 +121,7 @@ function createTray () {
 app.on('ready', ()=>{
   createWindow()
   createTray ()
+ // window.webContents.openDevTools({mode:'right'})
 
 
 })
