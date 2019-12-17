@@ -18,7 +18,7 @@
             <template slot="title"><i class="el-icon-setting"></i>系统设置</template>
 
 <!--            <el-menu-item index="3-1">-->
-<!--              <router-link to='msg'>数据库设置</router-link>-->
+<!--              <router-link to='sql'>数据库设置</router-link>-->
 <!--            </el-menu-item>-->
 <!--            <el-menu-item index="3-1">-->
 <!--              <router-link to='msg'>socket发送消息</router-link>-->
@@ -136,6 +136,6 @@
     opacity: 0.8!important;
   }
   .router-link-active {
-    color: rgba(255, 0, 0, 0.986) !important;
+    color: rgba(236, 91, 80, 0.98) !important;
   }
 </style>
