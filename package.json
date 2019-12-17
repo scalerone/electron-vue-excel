@@ -1,7 +1,7 @@
 {
   "name": "electron-excel",
   "version": "0.0.2",
-  "author": "wuhui <wuhui@yadingdata.com>",
+  "author": "wuhui",
   "description": "An electron-vue project",
   "license": null,
   "main": "./dist/electron/main.js",
@@ -16,7 +16,7 @@
     "pack": "npm run pack:main && npm run pack:renderer",
     "pack:main": "cross-env NODE_ENV=production webpack --progress --colors --config .electron-vue/webpack.main.config.js",
     "pack:renderer": "cross-env NODE_ENV=production webpack --progress --colors --config .electron-vue/webpack.renderer.config.js",
-    "postinstall": "npm run lint:fix",
+    "postinstall": " ",
     "patch": "npm version patch && git push origin master && git push origin --tags",
     "minor": "npm version minor && git push origin master && git push origin --tags",
     "major": "npm version major && git push origin master && git push origin --tags"
@@ -24,6 +24,12 @@
   "build": {
     "productName": "electron-excel",
     "appId": "com.example.yourapp",
+    "publish": [
+      {
+        "provider": "generic",
+        "url": "http://localhost:8085/"
+      }
+    ],
     "directories": {
       "output": "build"
     },
@@ -75,7 +81,8 @@
     "vue-electron": "^1.0.6",
     "vue-router": "^3.0.1",
     "vuex": "^3.0.1",
-    "vuex-electron": "^1.0.0"
+    "vuex-electron": "^1.0.0",
+    "xlsx": "^0.15.3"
   },
   "devDependencies": {
     "ajv": "^6.5.0",
@@ -97,6 +104,7 @@
     "electron-builder": "^20.19.2",
     "electron-debug": "^1.5.0",
     "electron-devtools-installer": "^2.2.4",
+    "electron-updater": "3.0.0",
     "file-loader": "^1.1.11",
     "html-webpack-plugin": "^3.2.0",
     "mini-css-extract-plugin": "0.4.0",

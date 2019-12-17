@@ -42,22 +42,27 @@ const createWindow = () => {
     return
   }
   window = new BrowserWindow({
-    height: 663,
-    width: 1000,
-    //title: 'excel助手',
-    frame: true,// 是否创建frameless窗口：创建一个没有顶部工具栏、没有border的窗口
-    fullscreenable: true,
-    center: true, // 是否出现在屏幕居中的位置
-    resizable: false,
-    transparent: true,
-    vibrancy: 'ultra-dark',
-    webPreferences: {
-      nodeIntegration: true, //设置这个可以使用 nodejs 的API
-      nodeIntegrationInWorker: true,
-      backgroundThrottling: false
-    }
+    height: 563,
+    useContentSize: true,
+    width: 1000
   })
-
+  // window = new BrowserWindow({
+  //   height: 663,
+  //   width: 1000,
+  //   useContentSize: true,
+  //   //title: 'excel助手',
+  //   frame: true,// 是否创建frameless窗口：创建一个没有顶部工具栏、没有border的窗口
+  //   fullscreenable: true,
+  //   center: true, // 是否出现在屏幕居中的位置
+  //   resizable: true,
+  //   transparent: true,
+  //   vibrancy: 'ultra-dark',
+  //   webPreferences: {
+  //     nodeIntegration: true, //设置这个可以使用 nodejs 的API
+  //     nodeIntegrationInWorker: true,
+  //     backgroundThrottling: false
+  //   }
+  // })
   window.loadURL(winURL)
   window.on('ready-to-show', function() {
     window.show();
@@ -66,9 +71,13 @@ const createWindow = () => {
   window.on('closed', () => {
     window = null
   })
+  // 去掉顶部菜单
+  window.setMenu(null)
+
   // window.on('blur', () => {
   //   window.hide()
   // })
+  require('./model/menu.js');
   return window
 }
 function createContextMenu () {
@@ -162,14 +171,14 @@ app.on('activate', () => {
  * https://simulatedgreg.gitbooks.io/electron-vue/content/en/using-electron-builder.html#auto-updating
  */
 
-/*
-import { autoUpdater } from 'electron-updater'
 
-autoUpdater.on('update-downloaded', () => {
-  autoUpdater.quitAndInstall()
-})
+// import { autoUpdater } from 'electron-updater'
+//
+// autoUpdater.on('update-downloaded', () => {
+//   autoUpdater.quitAndInstall()
+// })
+//
+// app.on('ready', () => {
+//   if (process.env.NODE_ENV === 'production') autoUpdater.checkForUpdates()
+// })
 
-app.on('ready', () => {
-  if (process.env.NODE_ENV === 'production') autoUpdater.checkForUpdates()
-})
- */
