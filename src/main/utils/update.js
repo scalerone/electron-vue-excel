@@ -13,6 +13,7 @@ export function updateHandle(window, feedUrl) {
         updateNotAva: '现在使用的就是最新版本，不用更新',
     };
     //设置更新包的地址
+    log.info('feedUrl:'+feedUrl)
     autoUpdater.setFeedURL(feedUrl);
     //监听升级失败事件
     autoUpdater.on('error', function (error) {

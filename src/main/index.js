@@ -1,5 +1,6 @@
 import { app, BrowserWindow , Tray,Menu, screen,dialog  } from 'electron'
 import pkg from '../../package.json'
+import cfg from '../../config.json'
 import {updateHandle} from './utils/Update.js';
 /**
  * Set `__static` path to static files in production
@@ -49,7 +50,9 @@ const createWindow = () => {
   require('./model/menu.js');
   //设置版本更新地址，即将打包后的latest.yml文件和exe文件同时放在
   //http://xxxx/test/version/对应的服务器目录下,该地址和package.json的publish中的url保持一致
-  let feedUrl = "http://localhost:8085/";
+  // let feedUrl = "http://localhost:8085/";
+  let feedUrl = cfg.feedUrl;
+
   //检测版本更新
   updateHandle(window,feedUrl)
   return window
@@ -115,14 +118,22 @@ function createTray () {
   })
 }
 
-
+//限制只启动一个应用
+const shouldQuit = app.makeSingleInstance((commandLine, workingDirectory) => {
+  if (window) {
+    if (window.isMinimized()) window.restore()
+    window.focus()
+  }
+})
+if (shouldQuit) {
+  app.quit()
+}
 
 
 app.on('ready', ()=>{
   createWindow()
   createTray ()
  // window.webContents.openDevTools({mode:'right'})
-
 
 })
 
@@ -133,7 +144,7 @@ app.on('window-all-closed', () => {
 })
 
 app.on('activate', () => {
-  if (mainWindow === null) {
+  if (window === null) {
     createWindow()
   }
 })
