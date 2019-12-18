@@ -1,7 +1,7 @@
 {
   "name": "electron-excel",
   "version": "0.0.2",
-  "author": "wuhui",
+  "author": "exceltool",
   "description": "An electron-vue project",
   "license": null,
   "main": "./dist/electron/main.js",
@@ -67,7 +67,7 @@
     },
     "nsis": {
       "oneClick": false,
-      "allowToChangeInstallationDirectory": true
+      "allowToChangeInstallationDirectory": false
     },
     "linux": {
       "icon": "build/icons"
@@ -75,6 +75,7 @@
   },
   "dependencies": {
     "axios": "^0.18.0",
+    "electron-log": "^4.0.0",
     "element-ui": "^2.13.0",
     "mysql": "^2.17.1",
     "vue": "^2.5.16",
@@ -102,7 +103,7 @@
     "devtron": "^1.4.0",
     "electron": "^2.0.4",
     "electron-builder": "^20.19.2",
-    "electron-debug": "^1.5.0",
+    "electron-debug": "^3.0.1",
     "electron-devtools-installer": "^2.2.4",
     "electron-updater": "3.0.0",
     "file-loader": "^1.1.11",
