@@ -14,7 +14,22 @@ Vue.http = Vue.prototype.$http = axios
 Vue.config.productionTip = false
 import Element from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
+import VueSocketIO from 'vue-socket.io'
+import socketio from 'socket.io-client';
+Vue.prototype.$socket = socketio
 Vue.use(Element)
+
+//引入socket.io配置连接
+Vue.use(new VueSocketIO({
+  debug: true,
+  connection: 'http://localhost:8085',
+  vuex: {
+    store,
+    actionPrefix: 'SOCKET_',
+    mutationPrefix: 'SOCKET_'
+  }
+}))
+
 /* eslint-disable no-new */
 new Vue({
   components: { App },

@@ -78,9 +78,11 @@
     "electron-log": "^4.0.0",
     "element-ui": "^2.13.0",
     "mysql": "^2.17.1",
+    "socket.io-client": "^2.3.0",
     "vue": "^2.5.16",
     "vue-electron": "^1.0.6",
     "vue-router": "^3.0.1",
+    "vue-socket.io": "^3.0.7",
     "vuex": "^3.0.1",
     "vuex-electron": "^1.0.0",
     "xlsx": "^0.15.3"

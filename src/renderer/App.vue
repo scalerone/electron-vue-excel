@@ -12,7 +12,9 @@
             <el-menu-item index="2-4-2">
               <router-link to='excel'>excel解析</router-link>
             </el-menu-item>
-
+            <el-menu-item index="2-4-3">
+              <router-link to='msg'>socket发送消息</router-link>
+            </el-menu-item>
           </el-submenu>
           <el-submenu index="3">
             <template slot="title"><i class="el-icon-setting"></i>系统设置</template>
@@ -116,6 +118,15 @@
 
 
     },
+    sockets:{
+      connect: function(){  //vue客户端和socket.io服务器端建立连接以后触发的方法
+        console.log('socket connected')
+      },
+      login: function(val){  //接收服务器广播的数据
+        console.log(val);
+
+      }
+    },
     mounted() {
 
       //监听网络变化
@@ -144,11 +155,18 @@
       window.onresize=()=>{
         this.winHeight=document.documentElement.clientHeight;
       }
+
+      //数据更新时，向服务器端发送事件
+      // $socket is socket.io-client instance
+      this.$socket.emit("compile")
+
+
     }
     // destroyed() {
     //   window.clearInterval(interval);
     //   window.clearInterval(timeOut);
     // }
+
 
   }
 </script>
