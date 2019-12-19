@@ -15,8 +15,6 @@ Vue.config.productionTip = false
 import Element from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
 import VueSocketIO from 'vue-socket.io'
-import socketio from 'socket.io-client';
-Vue.prototype.$socket = socketio
 Vue.use(Element)
 
 //引入socket.io配置连接

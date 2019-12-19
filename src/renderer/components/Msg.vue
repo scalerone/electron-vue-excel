@@ -1,7 +1,8 @@
 <template>
   <div id="msg"  class="content">
       <el-row>
-        <el-button type="success" @click="sendMsg">发送消息</el-button>
+        <el-button type="success" @click="sendMsg">发送消息方式一</el-button>
+        <el-button type="success" @click="sendMsgTwo">发送消息方式二</el-button>
     </el-row>
   </div>
 </template>
@@ -16,6 +17,14 @@
           return {
           }
       },
+        sockets:{
+            connect: function(){  //vue客户端和socket.io服务器端建立连接以后触发的方法
+                console.log('Msg component socket connected')
+            },
+            serverEmit: function(val){  //接收服务器广播的数据
+                console.log(val.hello);
+            }
+        },
       methods: {
           sendMsg() {
               //和服务器建立长连接
@@ -30,7 +39,11 @@
                   "title":"李克强会见美国客人：中方将继续成为外国投资的热土",
                   "url":"https://www.chinanews.com/gn/2018/09-07/8621613.shtml"
               });
+          },
+          sendMsgTwo(){
+              this.$socket.emit("sendNews",{name:"hello world"})
           }
+
       }
     }
 </script>
