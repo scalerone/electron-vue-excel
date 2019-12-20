@@ -16,8 +16,11 @@
               <router-link to='msg'>socket发送消息</router-link>
             </el-menu-item>
           </el-submenu>
-          <el-submenu index="3">
-            <template slot="title"><i class="el-icon-setting"></i>系统设置</template>
+          <el-menu-item index="3">
+            <router-link to='setting'><i class="el-icon-setting"></i>系统设置</router-link>
+          </el-menu-item>
+<!--          <el-submenu index="3">-->
+<!--            <template slot="title"><i class="el-icon-setting"></i>系统设置</template>-->
 
 <!--            <el-menu-item index="3-1">-->
 <!--              <router-link to='sql'>数据库设置</router-link>-->
@@ -25,7 +28,7 @@
 <!--            <el-menu-item index="3-1">-->
 <!--              <router-link to='msg'>socket发送消息</router-link>-->
 <!--            </el-menu-item>-->
-          </el-submenu>
+<!--          </el-submenu>-->
         </el-menu>
       </el-aside>
       <el-container :style="{'height':winHeight+'px'}" class="main-content">
@@ -200,20 +203,7 @@
   .content {
     width: 100%;
   }
-  //全局表格
 
-  .electron-table{
-    border-collapse: collapse;     //给表格设置合并边框模型
-    width: 100%;
-  }
-  .electron-table tr td,.electron-table tr th{
-    height: 30px;
-    line-height: 30px;
-    border:1px solid #eee;
-    text-align: center;
-    font-size: 14px;
-    padding:5px;
-  }
 
   /*全局布局*/
   .main_top{
@@ -232,6 +222,9 @@
     opacity: 0.8!important;
   }
   .router-link-active {
-    color: rgba(236, 91, 80, 0.98) !important;
+    color: rgba(237, 94, 84, 0.98) !important;
+    i {
+      color: rgba(237, 94, 84, 0.98) !important;
+    }
   }
 </style>
